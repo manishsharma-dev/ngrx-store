@@ -1,5 +1,22 @@
-<router-outlet />
-{{title()}}: <h2>{{counter$ | async}}</h2>
-<button (click)="increment()"> + </button>
-<button (click)="decrement()"> - </button>
-<button (click)="reset()"> Reset </button>
+<h2>NgRx Store with forms</h2>
+
+@if(form$ | async; as form){
+    <input
+        type="text"
+        [value]="form.name"
+        (input)="onFieldChange('name', $event.target.value)"
+>
+    <br />
+    <input
+        type="email"
+        [value]="form.email"
+        (input)="onFieldChange('email', $event.target.value)"
+    >
+
+    <br />
+    <button (click)="resetForm()">Clear Form</button>
+
+    <hr />
+    <h4>Form State:</h4>
+    <pre>{{ form | json }}</pre>
+}

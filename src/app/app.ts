@@ -1,38 +1,31 @@
 import { Component, inject, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 import {Store} from '@ngrx/store';
-import { increment, decrement, reset } from './store/counter.action';
 import {Observable} from 'rxjs';
 import {CommonModule} from '@angular/common';
-import { counterFeature } from './store/counter.feature';
+import { formFeature } from './form/form.feature';
+import { updateFormField, resetForm } from './form/form.action';
+
 
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, CommonModule],
+  imports: [ CommonModule],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
 export class App {
-  protected readonly title = signal('ngrx-store');
-
+  protected form$: Observable<{name: string; email: string}>;
   private store = inject(Store);
 
-  protected counter$: Observable<number>;
-
   constructor() {
-    this.counter$ = this.store.select(counterFeature.selectCounterState);
+    this.form$ = this.store.select(formFeature.selectFormState);
   }
 
-  protected increment() {
-    this.store.dispatch(increment());
+  protected onFieldChange(field: 'name' | 'email', value: string): void {
+    this.store.dispatch(updateFormField({ field, value }));
   }
 
-  protected decrement() {
-    this.store.dispatch(decrement());
-  }
-
-  protected reset() {
-    this.store.dispatch(reset());
+  protected resetForm(): void {
+    this.store.dispatch(resetForm());
   }
 }
