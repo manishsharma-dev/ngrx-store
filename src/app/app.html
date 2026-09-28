@@ -1,22 +1,19 @@
-<h2>NgRx Store with forms</h2>
+<h1>Ngrx Effect</h1>
 
-@if(form$ | async; as form){
-    <input
-        type="text"
-        [value]="form.name"
-        (input)="onFieldChange('name', $event.target.value)"
->
-    <br />
-    <input
-        type="email"
-        [value]="form.email"
-        (input)="onFieldChange('email', $event.target.value)"
-    >
+<button (click)="load()">Load Users</button>
 
-    <br />
-    <button (click)="resetForm()">Clear Form</button>
-
-    <hr />
-    <h4>Form State:</h4>
-    <pre>{{ form | json }}</pre>
+@if(users$ | async; as users){
+    @if(users.loading){
+        <p>Loading...</p>
+    }
+    @else if(users.error){
+        <p>Error: {{users.error}}</p>
+    }
+    @else {
+        <ul>
+            @for(user of users.users; track user.id){
+                <li>{{user.name}}</li>
+            }
+        </ul>
+    }
 }
