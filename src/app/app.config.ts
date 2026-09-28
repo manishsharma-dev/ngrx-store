@@ -6,6 +6,7 @@ import { provideState, provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { UserEffects } from './users/user.effects';
 import { userFeature } from './users/user.feature';
+import { provideStoreDevtools } from '@ngrx/store-devtools';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -14,5 +15,6 @@ export const appConfig: ApplicationConfig = {
     provideStore(),
     provideState(userFeature),
     provideEffects([UserEffects]),
+    provideStoreDevtools({ maxAge: 25, logOnly: false }),
   ],
 };
